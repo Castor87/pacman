@@ -10,7 +10,7 @@ if __name__ == "__main__":
     fonte = pygame.font.SysFont("calibri", TAMANHO, True, False)
 
     pacman = Pacman()
-    blinky = Fantasma(VERMELHO, 15, 13)
+    blinky = Fantasma(VERMELHO, 2, 26)  # Fantasma(VERMELHO, 15, 13)
     cenario = Cenario(pacman, fonte)
 
     while True:
@@ -18,6 +18,8 @@ if __name__ == "__main__":
         # Parte 1 - Calcular regras
         pacman.calcular_regras()
         cenario.calcular_regras()
+        blinky.calcular_regras()
+        direcoes = blinky.get_direcoes(blinky.linha, blinky.coluna)
 
         # Parte 2 - Desenhar tela
         tela.fill(PRETO)

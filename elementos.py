@@ -1,4 +1,5 @@
 import pygame
+import random
 from abc import ABCMeta, abstractmethod
 from main import *
 from config import *
@@ -177,14 +178,50 @@ class Fantasma(ElementoJogo):
     def __init__(self, cor, lin, col):
         self.cor = cor
         self.raio = TAMANHO // 2
-        self.centro_x = col * TAMANHO + self.raio
-        self.centro_y = lin * TAMANHO + self.raio
+        self.coluna = col
+        self.linha = lin
+        self.centro_x = self.coluna * TAMANHO + self.raio
+        self.centro_y = self.linha * TAMANHO + self.raio
+        self.matriz = MATRIZ
+        self.vel = VELOCIDADE
+        self.direcao = 0
+
+    def get_direcoes(self, lin, col):
+        direcoes = []
+        if self.matriz[int(lin - 1)][int(col)] != 2:
+            direcoes.append(ACIMA)
+        if self.matriz[int(lin)][int(col + 1)] != 2:
+            direcoes.append(DIREITA)
+        if self.matriz[int(lin + 1)][int(col)] != 2:
+            direcoes.append(ABAIXO)
+        if self.matriz[int(lin)][int(col - 1)] != 2:
+            direcoes.append(ESQUERDA)
+        return direcoes
 
     def calcular_regras(self):
-        pass
+        # Verificar se não está em corredor ou beco
+        direcoes = self.get_direcoes(self.linha, self.coluna)
+        if len(direcoes) > 1:
+            corredor = abs(direcoes[1] - direcoes[0]) == 2
+            if len(direcoes) == 2 and corredor:
+                self.direcao = self.direcao
+            else:
+                self.direcao = random.choice(direcoes)
+
+        # Realizar movimento
+        if self.direcao == ACIMA:
+            self.linha -= self.vel
+        if self.direcao == DIREITA:
+            self.coluna += self.vel
+        if self.direcao == ABAIXO:
+            self.linha += self.vel
+        if self.direcao == ESQUERDA:
+            self.coluna -= self.vel
 
     def desenhar(self, tela):
         self.tela = tela
+        self.centro_x = self.coluna * TAMANHO + self.raio
+        self.centro_y = self.linha * TAMANHO + self.raio
         # Cabeça do fantasma
         pygame.draw.circle(self.tela, self.cor, (self.centro_x, self.centro_y), self.raio, 0)
 
