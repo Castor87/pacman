@@ -10,6 +10,7 @@ if __name__ == "__main__":
     fonte = pygame.font.SysFont("calibri", TAMANHO, True, False)
 
     pacman = Pacman()
+    blinky = Fantasma(VERMELHO, 15, 13)
     cenario = Cenario(pacman, fonte)
 
     while True:
@@ -23,6 +24,7 @@ if __name__ == "__main__":
         cenario.desenhar(tela)
         cenario.desenhar_pontuacao(tela)
         pacman.desenhar(tela)
+        blinky.desenhar(tela)
         pygame.display.update()
         pygame.time.delay(100)
 

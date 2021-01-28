@@ -7,6 +7,7 @@ AZUL = (0, 0, 255)
 AMARELO = (255, 255, 0)
 CIANO = (0, 255, 255)
 MAGENTA = (255, 0, 255)
+LARANJA = (255, 165, 0)
 
 # Pacman
 VELOCIDADE = 1

@@ -1,6 +1,6 @@
 import pygame
 from abc import ABCMeta, abstractmethod
-from pacman import *
+from main import *
 from config import *
 
 
@@ -172,3 +172,40 @@ class Pacman(ElementoJogo):
                 self.coluna = (mouse_x - self.centro_x) / delay
                 self.linha = (mouse_y - self.centro_y) / delay
 
+
+class Fantasma(ElementoJogo):
+    def __init__(self, cor, lin, col):
+        self.cor = cor
+        self.raio = TAMANHO // 2
+        self.centro_x = col * TAMANHO + self.raio
+        self.centro_y = lin * TAMANHO + self.raio
+
+    def calcular_regras(self):
+        pass
+
+    def desenhar(self, tela):
+        self.tela = tela
+        # Cabeça do fantasma
+        pygame.draw.circle(self.tela, self.cor, (self.centro_x, self.centro_y), self.raio, 0)
+
+        # Corpo do fantasma
+        pygame.draw.rect(self.tela, self.cor,
+                         (self.centro_x - self.raio, self.centro_y, self.raio * 2, self.raio), 0)
+
+        # Olho esquerdo do fantasma
+        pygame.draw.circle(self.tela, BRANCO,
+                           (self.centro_x - self.raio // 3, self.centro_y - self.raio // 2),
+                           self.raio // 4, 0)
+        pygame.draw.circle(self.tela, AZUL,
+                           (self.centro_x - self.raio // 3, self.centro_y - self.raio // 2),
+                           self.raio // 7, 0)
+        # Olho direito do fantasma
+        pygame.draw.circle(self.tela, BRANCO,
+                           (self.centro_x + self.raio // 3, self.centro_y - self.raio // 2),
+                           self.raio // 4, 0)
+        pygame.draw.circle(self.tela, AZUL,
+                           (self.centro_x + self.raio // 3, self.centro_y - self.raio // 2),
+                           self.raio // 7, 0)
+
+    def processar_eventos(self, events):
+        pass
